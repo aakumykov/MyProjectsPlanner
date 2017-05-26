@@ -1,12 +1,62 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Signup</ion-title>
+  <ion-navbar color="primary-dark">
+	<ion-title>Новая команда</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  
+  <form [formGroup]="createTeamForm" (submit)="createTeam()" novalidate>
+	<ion-item>
+	  <ion-label stacked>Полное имя</ion-label>
+	  <ion-input formControlName="fullName" type="text" placeholder="Каково твоё имя, незнакомец?" 
+		[class.invalid]="!createTeamForm.controls.fullName.valid && createTeamForm.controls.fullName.dirty">
+	  </ion-input>
+	</ion-item>
+	<ion-item class="error-message" 
+	  *ngIf="!createTeamForm.controls.fullName.valid  && createTeamForm.controls.fullName.dirty">
+	  <p>Почему ты не хочешь сказать своё имя?</p>
+	</ion-item>
 
+	<ion-item>
+	  <ion-label stacked>Команда</ion-label>
+	  <ion-input formControlName="teamName" type="text" placeholder="Как называется команда?" 
+		[class.invalid]="!createTeamForm.controls.teamName.valid && createTeamForm.controls.teamName.dirty">
+	  </ion-input>
+	</ion-item>
+	<ion-item class="error-message" 
+	  *ngIf="!createTeamForm.controls.teamName.valid  && createTeamForm.controls.teamName.dirty">
+	  <p>Эй, у команды должно быть название!</p>
+	</ion-item>
+
+	<ion-item>
+	  <ion-label stacked>Email</ion-label>
+	  <ion-input formControlName="email" type="email" placeholder="e-mail используется для входа" 
+		[class.invalid]="!createTeamForm.controls.email.valid && createTeamForm.controls.email.dirty">
+	  </ion-input>
+	</ion-item>
+	<ion-item class="error-message" 
+	  *ngIf="!createTeamForm.controls.email.valid  && createTeamForm.controls.email.dirty">
+	  <p>Напишит корректный e-mail</p>
+	</ion-item>
+
+	<ion-item>
+	  <ion-label stacked>Пароль</ion-label>
+	  <ion-input formControlName="password" type="password" placeholder="Придумайте пароль" 
+		[class.invalid]="!createTeamForm.controls.password.valid && createTeamForm.controls.password.dirty">
+	  </ion-input>
+	</ion-item>
+	<ion-item class="error-message" 
+	  *ngIf="!createTeamForm.controls.password.valid  && createTeamForm.controls.password.dirty">
+	  <p>Минимум 6 символов для пароля</p>
+	</ion-item>
+
+	<button ion-button block type="submit" color="accent"
+	  [disabled]="!createTeamForm.valid">
+	  Зарегистрироваться
+	</button>
+  </form>
 </ion-content>
