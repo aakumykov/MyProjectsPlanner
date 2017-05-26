@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 
-/**
- * Generated class for the LandingPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-landing',
@@ -14,11 +8,18 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LandingPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController) {}
+
+  goToLogin(): void {
+    this.navCtrl.push('LoginPage');
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LandingPage');
+  goToSignup(): void {
+    this.navCtrl.push('SignupPage');
+  }
+  
+  goToIntro(): void {
+    this.navCtrl.push('IntroPage');
   }
 
 }
