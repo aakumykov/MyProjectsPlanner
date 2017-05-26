@@ -3,7 +3,8 @@ import { IonicPage } from 'ionic-angular';
 
 IonicPage()
 @Component({
-  templateUrl: 'tabs.html'
+	selector: 'page-tabs',
+	templateUrl: 'tabs.html'
 })
 export class TabsPage {
 
