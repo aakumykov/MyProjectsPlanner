@@ -1,12 +1,21 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Landing</ion-title>
+  <ion-navbar color="primary-dark">
+    <ion-title>Планировщик проектов</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <img src="assets/img/todo.png" alt="Todo list image">
+  <button ion-button block color="accent" (click)="goToSignup()">
+    Создать команду
+  </button>
+  <button ion-button block color="accent" (click)="goToIntro()">
+    Меня пригласили
+  </button>
+  <button ion-button clear block color="light" class="login-button" (click)="goToLogin()">
+    Я уже зарегистрирован
+  </button>
 </ion-content>
