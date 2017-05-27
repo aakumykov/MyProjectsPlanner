@@ -1,12 +1,41 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>Login</ion-title>
-  </ion-navbar>
-
+	<ion-navbar color="primary-dark">
+	<ion-title>Вход</ion-title>
+	</ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
+	<form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
+	<ion-item>
+		<ion-label stacked>Email</ion-label>
+		<ion-input formControlName="email" type="email" placeholder="E-mail, с которым регистрировались" 
+		[class.invalid]="!loginForm.controls.email.valid && loginForm.controls.email.dirty">
+		</ion-input>
+	</ion-item>
+	<ion-item class="error-message" 
+		*ngIf="!loginForm.controls.email.valid	&& loginForm.controls.email.dirty">
+		<p>Напишите корректный e-mail</p>
+	</ion-item>
 
+	<ion-item>
+		<ion-label stacked>Пароль</ion-label>
+		<ion-input formControlName="password" type="password" placeholder="Ваш пароль" 
+		[class.invalid]="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
+		</ion-input>
+	</ion-item>
+	<ion-item class="error-message" 
+		*ngIf="!loginForm.controls.password.valid	&& loginForm.controls.password.dirty">
+		<p>Минимум 6 символов</p>
+	</ion-item>
+
+	<button ion-button block type="submit" color="accent"
+		[disabled]="!loginForm.valid">
+		Войти
+	</button>
+	</form>
+
+	<button ion-button clear block color="light" class="login-button" (click)="goToResetPassword()">
+	Я забыл(а) пароль :(
+	</button>
 </ion-content>
