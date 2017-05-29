@@ -62,24 +62,34 @@ export class AuthProvider {
 		return new Promise( (resolve, reject) => {
 			const invitation: any = [];
 
-			firebase.database().ref('/invite').orderByChild('email').equalTo(email).limitToFirst(1)
+			firebase.database()
+				.ref('/invite')
+				.orderByChild('email')
+				.equalTo(email)
+				.limitToFirst(1)
 				.once('value', inviteSanpshot => {
-				inviteSanpshot.forEach( inviteSnap => {
-					console.info('AuthProvider.getTeamInvite(), inviteSnap:');
-					console.info(inviteSnap);
+					console.info('AuthProvider.getTeamInvite(), inviteSanpshot:');
+					console.info(inviteSanpshot);
 
-					invitation.push({
-						inviteId: inviteSnap.key,
-						email: inviteSnap.val().email,
-						teamId: inviteSnap.val().teamId,
-						fullName: inviteSnap.val().fullName,
-						teamName: inviteSnap.val().teamName
-					});
-					
-					return false
+					inviteSanpshot.forEach( inviteSnap => {
+						console.info('AuthProvider.getTeamInvite(), inviteSnap:');
+						console.info(inviteSnap);
+
+						invitation.push({
+							inviteId: inviteSnap.key,
+							email: inviteSnap.val().email,
+							teamId: inviteSnap.val().teamId,
+							fullName: inviteSnap.val().fullName,
+							teamName: inviteSnap.val().teamName
+						});
+						
+						return false
 				});
 
 				resolve(invitation);
+			}).catch(e => {
+				console.info('AuthProvider.getTeamInvite(), ERROR:');
+				console.info(e);
 			});
 		});
 	}

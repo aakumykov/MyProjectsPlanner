@@ -56,8 +56,12 @@ export class IntroPage {
 						console.log("IntroPage.getInvitation(), сокрытие круилки, следующий слайд...");
 						this.nextSlide(); 
 					});
+			}).catch(e => {
+				console.info('IntroPage.getInvitation(), ERROR:');
+				console.info(e);
 			});
 		}
+
 		loading.present();
 	}
 

@@ -12,6 +12,7 @@
 <ion-content padding>
 <ion-slides pager>
 
+	<!-- Ввод данных -->
 	<ion-slide >
 		<h2>Добро пожаловать в ПланировщикПроектов</h2>
 		<p>
@@ -30,11 +31,12 @@
 			</ion-item>
 
 			<button ion-button block type="submit" color="accent" [disabled]="!getInvitationForm.valid">
-				Зарегистрироваться
+				Проверить
 			</button>
 		</form>
 	</ion-slide>
 
+	<!-- Ошибка -->
 	<ion-slide>
 		<div *ngIf="!invitation">
 			<h2>Не найдено!</h2>
@@ -71,6 +73,7 @@
 		</div>
 	</ion-slide>
 
+	<!-- Успех -->
 	<ion-slide *ngIf="invitation">
 		<h2>
 			Привет, {{ invitation.fullName }},
