@@ -6,12 +6,8 @@ export class AuthProvider {
 
 	constructor() {}
 
-	createAdminAccount(
-		email: string, 
-		password: string, 
-		fullName: string, 
-		teamName: string
-	): firebase.Promise<any> {
+	createAdminAccount(email: string, password: string, 
+	 fullName: string, teamName: string): firebase.Promise<any> {
 		return firebase.auth().createUserWithEmailAndPassword(email, password).then( newUser => {
 			firebase.database().ref('/userProfile').child(newUser.uid)
 			.set({
@@ -38,65 +34,73 @@ export class AuthProvider {
 
 	createMemberAccount(email: string, password: string, teamId: string, fullName: string, 
 	teamName: string, inviteId: string): firebase.Promise<any> {
-	return firebase.auth().createUserWithEmailAndPassword(email, password).then( newUser => {
-		firebase.database().ref('/userProfile').child(newUser.uid)
-		.set({
-			email,
-			fullName,
-			teamId,
-			teamName,
-			teamAdmin: false,
-			active: false
-		}).then( () => {
-			firebase.database().ref('/teamProfile').child(teamId).child('teamMembers').child(newUser.uid).set({
-			fullName: fullName,
-			email: email,
-			inactive: true,
-			inviteId: inviteId
+		return firebase.auth().createUserWithEmailAndPassword(email, password).then( newUser => {
+			firebase.database().ref('/userProfile').child(newUser.uid)
+			.set({
+				email,
+				fullName,
+				teamId,
+				teamName,
+				teamAdmin: false,
+				active: false
+			}).then( () => {
+				firebase.database().ref('/teamProfile').child(teamId).child('teamMembers').child(newUser.uid).set({
+					fullName: fullName,
+					email: email,
+					inactive: true,
+					inviteId: inviteId
+				});
+			}).then( () => {
+				firebase.database().ref('/invite').child(inviteId).child('acceptedInvite').set(true);
 			});
-		}).then( () => {
-			firebase.database().ref('/invite').child(inviteId).child('acceptedInvite').set(true);
 		});
-	});
 	}
 
 	getTeamInvite(email: string): firebase.Promise<any> {
-	return new Promise( (resolve, reject) => {
-		const invitation: any = [];
-		firebase.database().ref('/invite').orderByChild('email').equalTo(email).limitToFirst(1)
-		.once('value', inviteSanpshot => {
-		inviteSanpshot.forEach( inviteSnap => {
-			invitation.push({
-			inviteId: inviteSnap.key,
-			email: inviteSnap.val().email,
-			teamId: inviteSnap.val().teamId,
-			fullName: inviteSnap.val().fullName,
-			teamName: inviteSnap.val().teamName
+		console.info('AuthProvider.getTeamInvite()');
+
+		return new Promise( (resolve, reject) => {
+			const invitation: any = [];
+
+			firebase.database().ref('/invite').orderByChild('email').equalTo(email).limitToFirst(1)
+				.once('value', inviteSanpshot => {
+				inviteSanpshot.forEach( inviteSnap => {
+					console.info('AuthProvider.getTeamInvite(), inviteSnap:');
+					console.info(inviteSnap);
+
+					invitation.push({
+						inviteId: inviteSnap.key,
+						email: inviteSnap.val().email,
+						teamId: inviteSnap.val().teamId,
+						fullName: inviteSnap.val().fullName,
+						teamName: inviteSnap.val().teamName
+					});
+					
+					return false
+				});
+
+				resolve(invitation);
 			});
-			return false
 		});
-		resolve(invitation);
-		});
-	});
 	}
 
 	loginUser(email: string, password: string): Promise<any> {
-	return new Promise( (resolve, reject) => {
-		firebase.auth().signInWithEmailAndPassword(email, password).then( user => {
-		firebase.database().ref(`/userProfile/${user.uid}`)
-			.once('value', userProfile => {
-			resolve(userProfile.val().active);
-			}); 
+		return new Promise( (resolve, reject) => {
+			firebase.auth().signInWithEmailAndPassword(email, password).then( user => {
+			firebase.database().ref(`/userProfile/${user.uid}`)
+				.once('value', userProfile => {
+					resolve(userProfile.val().active);
+				}); 
+			});
 		});
-	});
 	}
 
 	logoutUser(): firebase.Promise<any> {
-	return firebase.auth().signOut();
+		return firebase.auth().signOut();
 	}
 
 	resetPassword(email: string): firebase.Promise<any> {
-	return firebase.auth().sendPasswordResetEmail(email);
+		return firebase.auth().sendPasswordResetEmail(email);
 	}
 
 }

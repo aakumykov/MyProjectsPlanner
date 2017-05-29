@@ -1,12 +1,83 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Intro</ion-title>
-  </ion-navbar>
+	<ion-navbar color="primary-dark">
+		<ion-title>
+			Добро пожаловать
+		</ion-title>
+	</ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+<ion-slides pager>
 
+	<ion-slide >
+		<h2>Добро пожаловать в ПланировщикПроектов</h2>
+		<p>
+			Укажите ваш e-mail, чтобы проверить приглашение
+		</p>
+		<form [formGroup]="getInvitationForm" (submit)="getInvitation()" novalidate>
+			<ion-item>
+				<ion-label stacked>Email</ion-label>
+				<ion-input formControlName="email" type="email" placeholder="Каков ваш E-mail?'" 
+					[class.invalid]="!getInvitationForm.controls.email.valid && getInvitationForm.controls.email.dirty">
+				</ion-input>
+			</ion-item>
+			<ion-item class="error-message" 
+				*ngIf="!getInvitationForm.controls.email.valid	&& getInvitationForm.controls.email.dirty">
+				<p>Укажите корректный E-mail</p>
+			</ion-item>
+
+			<button ion-button block type="submit" color="accent" [disabled]="!getInvitationForm.valid">
+				Зарегистрироваться
+			</button>
+		</form>
+	</ion-slide>
+
+	<ion-slide>
+		<div *ngIf="!invitation">
+			<h2>Не найдено!</h2>
+			<p>
+				Приглашение на этот адрес электронной почты не найдено :-(
+			</p>
+		</div>
+
+		<div *ngIf="invitation">
+			<h2>Привет, {{ invitation.fullName }}</h2>
+			<p>
+				Найдено приглашение от команды <span>«{{ invitation.teamName }}»</span>.
+			</p>
+			<p>
+				Вам осталось придумать пароль
+			</p>
+			<form [formGroup]="signupForm" novalidate>
+				<ion-item>
+					<ion-label stacked>Пароль</ion-label>
+					<ion-input formControlName="password" type="password" placeholder="Ваш пароль" 
+						[class.invalid]="!signupForm.controls.password.valid && signupForm.controls.password.dirty">
+					</ion-input>
+				</ion-item>
+				<ion-item class="error-message" 
+					*ngIf="!signupForm.controls.password.valid	&& signupForm.controls.password.dirty">
+					<p>Минимум 6 знаков</p>
+				</ion-item>
+
+				<button ion-button block type="submit" color="accent" (click)="signupTeamMember()" 
+					[disabled]="!signupForm.valid">
+					Зарегистрироваться
+				</button>
+			</form>
+		</div>
+	</ion-slide>
+
+	<ion-slide *ngIf="invitation">
+		<h2>
+			Привет, {{ invitation.fullName }},
+		</h2>
+		<p>
+			как только руководитель команды «{{ invitation.teamName }}» подтвердит вашу регистрацию, вы сможете пользоваться учётной записью.
+		</p>
+	</ion-slide>
+</ion-slides>
 </ion-content>

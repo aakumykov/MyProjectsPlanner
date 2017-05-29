@@ -83,6 +83,7 @@ export class TeamProvider {
 
 	acceptTeamMember(memberId: string, inviteId: string): firebase.Promise<any> {
 		const activatedUser = {};
+		
 		activatedUser[`/invite/${inviteId}`] = null;
 		activatedUser[`/teamProfile/${firebase.auth().currentUser.uid}/teamMembers/${memberId}/inactive`] = null;
 		activatedUser[`/teamProfile/${firebase.auth().currentUser.uid}/teamMembers/${memberId}/inviteId`] = null;

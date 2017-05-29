@@ -1,7 +1,7 @@
 <ion-header>
 	<ion-navbar color ="primary-dark">
 		<ion-title>
-			{{ teamProfile?.teamName }}
+			Команда «{{ teamProfile?.teamName }}»
 		</ion-title>
 	</ion-navbar>
 </ion-header>
@@ -39,7 +39,7 @@
 
 	<ion-list *ngIf="teamProfile">
 		<ion-list-header>
-			Члены команды
+			Участники команды
 		</ion-list-header>
 		<ion-item *ngFor="let member of teamProfile?.teamMembers | objectToArray">
 			{{ member.fullName }}
