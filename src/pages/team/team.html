@@ -8,28 +8,28 @@
 
 <ion-content padding>
 
-	<h4>Hey {{ teamProfile?.adminName }},</h4>
+	<h4>Привет, {{ teamProfile?.adminName }},</h4>
 
 	<p>
-		You're the admin of <span>{{ teamProfile?.teamName }}</span> and below you can see your team members or add new members.
+		вы администратор команды <span>{{ teamProfile?.teamName }}</span> и можете управлять её составом.
 	</p>
 
 	<button ion-button block color="accent" (click)="inviteTeamMember()">
-		Invite a new member
+		Пригласить участника
 	</button>
 
 	<ion-list *ngIf="pendingInvitationList">
 		<ion-list-header>
-			Pending Invitations
+			Исходящие приглашения
 		</ion-list-header>
 		<ion-item *ngFor="let invite of pendingInvitationList">
-			{{ invite.fullName }} - {{ invite.email }}
+			{{ invite.fullName }} ({{ invite.email }})
 		</ion-item>
 	</ion-list>
 
 	<ion-list *ngIf="pendingRequestList">
 		<ion-list-header>
-			Pending Requests
+			Исходящие запросы
 		</ion-list-header>
 		<button ion-item *ngFor="let request of pendingRequestList" 
 			(click)="acceptTeamMember(request.userId, request.inviteId, request.fullName)">
@@ -39,7 +39,7 @@
 
 	<ion-list *ngIf="teamProfile">
 		<ion-list-header>
-			Team Members
+			Члены команды
 		</ion-list-header>
 		<ion-item *ngFor="let member of teamProfile?.teamMembers | objectToArray">
 			{{ member.fullName }}
