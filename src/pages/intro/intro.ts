@@ -65,12 +65,17 @@ export class IntroPage {
 		loading.present();
 	}
 
+
 	signupTeamMember(): void {
+		console.info('IntroPage.signupTeamMember()');
+
 		const loading = this.loadingCtrl.create();
 		
 		if (!this.signupForm.valid){
 			console.log(this.signupForm.value);
 		} else {
+			console.info('IntroPage.signupTeamMember(), отправляю данные');
+			
 			this.authProvider.createMemberAccount(
 				this.invitation.email, 
 				this.signupForm.value.password, 
@@ -79,11 +84,18 @@ export class IntroPage {
 				this.invitation.teamName, 
 				this.invitation.inviteId
 			).then( () => {
+					console.info('IntroPage.signupTeamMember(), данные приняты:');
+					
 					loading.dismiss().then( () => {
+						console.info('IntroPage.signupTeamMember(), следующий слайд...');
 						this.nextSlide();
 					});
+			}).catch(error => {
+				console.info('IntroPage.signupTeamMember(), ОШИБКА:');
+				console.info(error);
 			});
 		}
+
 		loading.present();
 	}
 
