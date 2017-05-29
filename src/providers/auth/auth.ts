@@ -36,7 +36,8 @@ export class AuthProvider {
 	teamName: string, inviteId: string): firebase.Promise<any> {
 		console.info('AuthProvider.createMemberAccount(email: '+email+')');
 
-		return firebase.auth().createUserWithEmailAndPassword(email, password).then( newUser => {
+		return firebase.auth().createUserWithEmailAndPassword(email, password)
+		.then( newUser => {
 			firebase.database()
 			.ref('/userProfile')
 			.child(newUser.uid)
@@ -60,6 +61,9 @@ export class AuthProvider {
 					inactive: true,
 					inviteId: inviteId
 				});
+			}).catch(error => {
+				console.info('AuthProvider.createMemberAccount(), userProfile, ОШИБКА:');
+				console.info(error);
 			}).then( () => {
 				console.info('AuthProvider.createMemberAccount(), teamProfile');
 				firebase.database()
@@ -67,9 +71,12 @@ export class AuthProvider {
 				.child(inviteId)
 				.child('acceptedInvite')
 				.set(true);
+			}).catch(error => {
+				console.info('AuthProvider.createMemberAccount(), teamProfile, ОШИБКА:');
+				console.info(error);
 			});
 		}).catch( error => {
-			console.info('AuthProvider.createMemberAccount(), ОШИБКА:');
+			console.info('AuthProvider.createMemberAccount(), createUserWithEmailAndPassword, ОШИБКА:');
 			console.info(error);
 		});
 	}
