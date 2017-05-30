@@ -1,27 +1,21 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
+import { TeamProvider } from '../../providers/team/team';
 
-/**
- * Generated class for the TabsPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
-  selector: 'page-tabs',
-  templateUrl: 'tabs.html',
+	selector: 'page-tabs',
+	templateUrl: 'tabs.html',
 })
 export class TabsPage {
 
 	tab1Root: string = 'HomePage';
 	tab2Root: string = 'TeamPage';
+	isAdmin: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TabsPage');
-  }
-
+	constructor(private teamProvider: TeamProvider) {
+		this.teamProvider.getAdminStatus().then(adminStatus => {
+			this.isAdmin = adminStatus;
+		});
+	}
 }
