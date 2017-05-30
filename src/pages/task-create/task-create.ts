@@ -1,24 +1,48 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TeamProvider } from '../../providers/team/team';
+import { TaskProvider } from '../../providers/task/task';
 
-/**
- * Generated class for the TaskCreatePage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
-  selector: 'page-task-create',
-  templateUrl: 'task-create.html',
+	selector: 'page-task-create',
+	templateUrl: 'task-create.html',
 })
 export class TaskCreatePage {
+	public memberList: Array<Object>;
+	public createTaskForm: FormGroup;
+	
+	constructor(public navCtrl: NavController, public loadingCtrl:LoadingController, 
+	public formBuilder:FormBuilder, private teamProvider:TeamProvider, 
+	private taskProvider:TaskProvider) {
+		this.createTaskForm = formBuilder.group({
+				taskName: ['', Validators.required],
+				teamMember: ['', Validators.required],
+			});
+		
+		this.teamProvider.getTeamMemberList().then( teamList => {
+			this.memberList = teamList;
+		});
+	}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+	createTask(){
+		const loading = this.loadingCtrl.create();
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TaskCreatePage');
-  }
+		if (!this.createTaskForm.valid){
+			console.log(this.createTaskForm.value);
+		} else {
+			this.taskProvider.createTask(
+				this.createTaskForm.value.taskName, 
+				this.createTaskForm.value.teamMember
+			).then( () => {
+				loading.dismiss().then( () => {
+					this.navCtrl.pop();
+				});
+			});
+		}
+		
+		loading.present();
+	}
 
 }

@@ -96,9 +96,12 @@ export class TeamProvider {
 
 	getTeamMemberList(): Promise<any> {
 		const teamMeberList: Array<Object> = [];
+
 		return new Promise( (resolve, reject) => {
-			firebase.database().ref(`/teamProfile/${firebase.auth().currentUser.uid}/`)
+			firebase.database()
+			.ref(`/teamProfile/${firebase.auth().currentUser.uid}/`)
 			.child('teamMembers').on('value', teamMemberListSnapshot => {
+				
 				teamMemberListSnapshot.forEach( teamMemberListSnap => {
 					if (teamMemberListSnap.key !== firebase.auth().currentUser.uid){
 						teamMeberList.push({
@@ -109,6 +112,7 @@ export class TeamProvider {
 					}
 					return false
 				});
+
 				resolve(teamMeberList);
 			});
 		});
