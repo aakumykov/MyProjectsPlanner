@@ -15,5 +15,20 @@
 
 
 <ion-content padding>
+	<ion-list *ngIf="isAdmin">
+		<ion-item *ngFor="let task of taskList" (click)="completeTask(task)"
+		[class.incomplete]="!task.completed" [class.completed]="task.completed">
+			<h2>{{ task.taskName }}</h2>
+			<h3>Назначено: {{ task.memberName }}</h3>
+			<p>Для связи: {{ task.memberEmail }}</p>
+		</ion-item>
+	</ion-list>
 
+	<ion-list *ngIf="!isAdmin">
+		<ion-list-header>Ваши задания, {{ userProfile?.fullName }}</ion-list-header>
+		<ion-item *ngFor="let task of taskList" (click)="completeTask(task)"
+		[class.incomplete]="!task.completed" [class.completed]="task.completed">
+			<h2>{{ task.taskName }}</h2>
+		</ion-item>
+	</ion-list>
 </ion-content>
