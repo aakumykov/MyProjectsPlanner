@@ -1,6 +1,10 @@
 <ion-header>
 	<ion-navbar color='primary'>
   		<ion-buttons start>
+			<button *ngIf="isAdmin" ion-button icon-only (click)="addTask()" title="Выход">
+				<ion-icon name="add"></ion-icon>
+			</button>
+			
 			<button ion-button icon-only (click)="logOut()" title="Выход">
 				<ion-icon name="log-out"></ion-icon>
 			</button>
