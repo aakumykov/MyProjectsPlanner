@@ -1,0 +1,31 @@
+{
+	"rules": {
+		"userProfile": {
+			"$uid": {
+				".write": "($uid === auth.uid) || (root.child('userProfile').child(auth.uid).child('teamAdmin').val() === true)",
+				".read": "($uid === auth.uid) || (root.child('userProfile').child(auth.uid).child('teamAdmin').val() === true)"
+			}
+		},
+		"teamProfile": {
+			"$teamId" : {
+				".write": "(data.child('teamAdmin').val() === auth.uid)",
+				".read": "$teamId === root.child('userProfile').child(auth.uid).child('teamId').val()"
+			}
+		},
+		"taskByTeam": {
+			"$teamId": {
+				"$taskId": {
+					".write": "(data.child('memberId').val() === auth.uid) || ($teamId === auth.uid)",
+					".read": "$teamId === root.child('userProfile').child(auth.uid).child('teamId').val()"
+				}
+			}
+		},
+		"invite": {
+			".indexOn": ["teamId","email"],
+			"$inviteId": {
+				".read": true,
+				".write": "(data.child('teamId').val() === auth.uid) || (root.child('userProfile').child(auth.uid).child('email').val() === data.child('email').val())"
+			}
+		}
+	}
+}
