@@ -9,7 +9,7 @@
 	<form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
 	<ion-item>
 		<ion-label stacked>Email</ion-label>
-		<ion-input formControlName="email" type="email" placeholder="E-mail, с которым регистрировались" 
+		<ion-input formControlName="email" type="email" placeholder="Ваш E-mail" 
 		[class.invalid]="!loginForm.controls.email.valid && loginForm.controls.email.dirty">
 		</ion-input>
 	</ion-item>

@@ -18,7 +18,7 @@
 	<ion-list *ngIf="isAdmin">
 		<ion-item *ngFor="let task of taskList" (click)="completeTask(task)"
 		[class.incomplete]="!task.completed" [class.completed]="task.completed">
-			<h2>{{ task.taskName }}</h2>
+			<h2 class='task_name'>{{ task.taskName }}</h2>
 			<h3>Назначено: {{ task.memberName }}</h3>
 			<p>Для связи: {{ task.memberEmail }}</p>
 		</ion-item>
